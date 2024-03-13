@@ -5,6 +5,7 @@ set -o nounset
 set -o pipefail
 
 mkdir -p download/descriptions
+rm -f download/descriptions/*
 
 docker run --rm --name mm-downloader \
     -v "$(pwd)/download:/home/runner/download" \

@@ -60,7 +60,7 @@ func (d *Downloader) Download(target *url.URL) error {
 	switch target.Host {
 	case "youtube.com", "www.youtube.com", "music.youtube.com":
 		return d.downloadYouTube(target)
-	case "soundcloud.com":
+	case "soundcloud.com", "on.soundcloud.com":
 		return d.downloadSoundCloud(target)
 	default:
 		return fmt.Errorf("cannot handle url for host %q", target.Host)
@@ -91,6 +91,7 @@ func (d *Downloader) downloadYouTube(target *url.URL) error {
 func (d *Downloader) downloadSoundCloud(target *url.URL) error {
 	var cmdArgs = []string{
 		"-l", target.String(),
+		"-f",               // download user likes (TEMP)
 		"--addtofile",      // Add artist to filename if missing
 		"--overwrite",      // Overwrite file if it already exists
 		"--extract-artist", // Set artist tag from title instead of username
