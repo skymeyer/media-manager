@@ -18,7 +18,7 @@ COPY ./go.sum ./go.sum
 RUN CGO_ENABLED=0 go build -a -o mm app/main.go
 
 
-FROM python:3.9.16-bullseye
+FROM python:3.10.19-slim
 
 COPY --from=downloader /usr/local/ffmpeg-master-latest-linux64-gpl/bin/ffmpeg /bin/ffmpeg
 COPY --from=downloader /usr/local/ffmpeg-master-latest-linux64-gpl/bin/ffplay /bin/ffplay
