@@ -35,6 +35,8 @@ func NewDownloadCmd() *cobra.Command {
 
 	var (
 		outputDir = "/home/runner/download"
+		ytFormat  = downloader.YT_FORMAT
+		ytArgs    = []string{"--write-description"} // dump additional info for tag correction
 		urls      []string
 		fromFile  string
 	)
@@ -48,9 +50,8 @@ func NewDownloadCmd() *cobra.Command {
 			dnl, err := downloader.New(
 				downloader.WithWriters(cmd.OutOrStdout(), cmd.ErrOrStderr()),
 				downloader.WithOutputDir(outputDir),
-				downloader.WithYTArguments([]string{
-					"--write-description", // dump additional info for tag correction
-				}),
+				downloader.WithYTFormat(ytFormat),
+				downloader.WithYTArguments(ytArgs),
 			)
 			if err != nil {
 				return err
@@ -91,8 +92,10 @@ func NewDownloadCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringSliceVar(&urls, "urls", urls, "List of URLs to download")
+	cmd.Flags().StringSliceVar(&ytArgs, "yt-args", ytArgs, "yt-dlp additional arguments")
 	cmd.Flags().StringVar(&fromFile, "from-file", fromFile, "File containing download URLs")
 	cmd.Flags().StringVar(&outputDir, "output-dir", outputDir, "Directory to store downloads")
+	cmd.Flags().StringVar(&ytFormat, "yt-format", ytFormat, "YouTube output format")
 
 	return cmd
 }

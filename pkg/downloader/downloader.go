@@ -12,6 +12,7 @@ const (
 	BIN_FFMPEG = "ffmpeg"
 	BIN_FFPLAY = "ffplay"
 	BIN_SCDL   = "scdl"
+	YT_FORMAT  = "bestaudio[ext=m4a]"
 )
 
 var (
@@ -36,7 +37,7 @@ func New(opts ...Option) (*Downloader, error) {
 
 	// Create default downloader
 	dl := &Downloader{
-		ytFormat: "bestaudio[ext=m4a]",
+		ytFormat: YT_FORMAT,
 	}
 
 	// Apply options
