@@ -20,6 +20,12 @@ RUN CGO_ENABLED=0 go build -a -o mm app/main.go
 
 FROM python:3.10.19-slim
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=downloader /usr/local/ffmpeg-master-latest-linux64-gpl/bin/ffmpeg /bin/ffmpeg
 COPY --from=downloader /usr/local/ffmpeg-master-latest-linux64-gpl/bin/ffplay /bin/ffplay
 
@@ -29,10 +35,13 @@ RUN adduser runner
 USER runner
 WORKDIR /home/runner
 
-RUN pip install --user yt-dlp
-RUN pip install --user scdl
+RUN curl -fsSL https://deno.land/install.sh | sh
 
-ENV PATH="/home/runner/.local/bin:${PATH}"
+RUN pip install --user -U "yt-dlp[default]"
+RUN pip install --user -U scdl
+
+ENV DENO_INSTALL="/home/runner/.deno"
+ENV PATH="/home/runner/.local/bin:/home/runner/.deno/bin:${PATH}"
 
 COPY --from=builder /go/src/go.skymeyer.dev/media-manager/mm /bin/mm
 
