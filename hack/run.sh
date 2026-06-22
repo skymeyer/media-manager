@@ -10,6 +10,6 @@ rm -f download/descriptions/*
 docker run --rm --name mm-downloader \
     -v "$(pwd)/download:/home/runner/download" \
     media-manager:dev \
-    download --from-file=download.txt
+    download --from-file=download.txt --yt-cookies=cookies.txt
 
 mv download/*.description download/descriptions || true

@@ -16,6 +16,12 @@ func WithYTFormat(format string) Option {
 	}
 }
 
+func WithYTCookies(file string) Option {
+	return func(dl *Downloader) {
+		dl.ytCookies = file
+	}
+}
+
 func WithYTArguments(args []string) Option {
 	return func(dl *Downloader) {
 		dl.ytArgs = args

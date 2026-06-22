@@ -51,6 +51,7 @@ func New(opts ...Option) (*Downloader, error) {
 type Downloader struct {
 	outputDir string
 	ytFormat  string
+	ytCookies string
 	ytArgs    []string
 	scArgs    []string
 	outWriter io.Writer
@@ -85,6 +86,9 @@ func (d *Downloader) downloadYouTube(target *url.URL) error {
 		"--embed-thumbnail",
 		"--convert-thumbnail", "jpg",
 		"--output", "%(artist)s - %(title)s.%(ext)s",
+	}
+	if d.ytCookies != "" {
+		cmdArgs = append(cmdArgs, "--cookies", d.ytCookies)
 	}
 	return d.runCmd(exec.Command(BIN_YT_DLP, append(cmdArgs, d.ytArgs...)...))
 }
